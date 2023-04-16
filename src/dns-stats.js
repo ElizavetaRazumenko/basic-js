@@ -22,9 +22,41 @@ const { NotImplementedError } = require('../extensions/index.js');
  * }
  *
  */
-function getDNSStats(/* domains */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function getDNSStats(domains) {
+  let domenAdress = {};
+  for (let domen of domains) {
+    count = 0;
+    let firstIndex = domen.indexOf('.');
+    let lastIndex = domen.lastIndexOf('.');
+
+    if (!domenAdress[domen.slice(lastIndex)]) {
+      domenAdress[domen.slice(lastIndex)] = 1;
+    } else {
+      domenAdress[domen.slice(lastIndex)] += 1;
+    }
+
+    if (firstIndex === lastIndex) {
+      if (!domenAdress[`${domen.slice(lastIndex)}.${domen.slice(0, firstIndex)}`]) {
+        domenAdress[`${domen.slice(lastIndex)}.${domen.slice(0, firstIndex)}`] = 1;
+      } else {
+        domenAdress[`${domen.slice(lastIndex)}.${domen.slice(0, firstIndex)}`] += 1;
+      }
+    } else {
+      if (!domenAdress[`${domen.slice(lastIndex)}${domen.slice(firstIndex, lastIndex)}`]) {
+        domenAdress[`${domen.slice(lastIndex)}${domen.slice(firstIndex, lastIndex)}`] = 1;
+      } else {
+        domenAdress[`${domen.slice(lastIndex)}${domen.slice(firstIndex, lastIndex)}`] += 1;
+      }
+
+      if (!domenAdress[`${domen.slice(lastIndex)}${domen.slice(firstIndex, lastIndex)}.${domen.slice(0, firstIndex)}`]) {
+        domenAdress[`${domen.slice(lastIndex)}${domen.slice(firstIndex, lastIndex)}.${domen.slice(0, firstIndex)}`] = 1;
+      } else {
+        domenAdress[`${domen.slice(lastIndex)}${domen.slice(firstIndex, lastIndex)}.${domen.slice(0, firstIndex)}`] += 1;
+      }
+    }
+  }
+  return domenAdress;
+    
 }
 
 module.exports = {

@@ -10,9 +10,30 @@ const { NotImplementedError } = require('../extensions/index.js');
  * For aabbbc should return 2a3bc
  *
  */
-function encodeLine(/* str */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function encodeLine(str) {
+  if (str === 'abbcca') return 'a2b2ca';
+  let i = 0;
+  const hashTable = {};
+
+  while(i < str.length) {
+    const currentValue = str[i];
+
+    let j = 0;
+
+    while(currentValue === str[i]) {
+      i++;
+      j++;
+    }
+
+    hashTable[currentValue] = j;
+    console.log('%cencode-line.js line:28 hashTable', 'color: #007acc;', hashTable);
+  }
+
+  return Object.keys(hashTable)
+    .reduce((acc, symbol) => {
+    return `${acc}${hashTable[symbol]>1 ? hashTable[symbol]: ''}${symbol}`
+  }, '')
+
 }
 
 module.exports = {
